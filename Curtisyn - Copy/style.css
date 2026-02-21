@@ -1,0 +1,141 @@
+/* ================= GLOBAL ================= */
+body{
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    color:#333;
+}
+
+/* smooth scrolling */
+html{
+    scroll-behavior:smooth;
+}
+
+/* section spacing */
+section{
+    padding-top:70px;
+    padding-bottom:70px;
+}
+
+/* ================= NAVBAR ================= */
+.navbar-brand{
+    letter-spacing:1px;
+}
+
+.nav-link{
+    font-weight:500;
+    transition:0.3s;
+}
+
+.nav-link:hover{
+    color:#b08968 !important;
+}
+
+.btn-dark{
+    background:#3e3e3e;
+    border:none;
+    transition:0.3s;
+}
+
+.btn-dark:hover{
+    background:#b08968;
+}
+
+/* ================= HERO ================= */
+section.bg-dark{
+    min-height:85vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+section.bg-dark h1{
+    text-shadow:0 2px 8px rgba(0,0,0,0.6);
+}
+
+section.bg-dark p{
+    color:#eaeaea;
+}
+
+/* ================= CARDS ================= */
+.card{
+    transition:0.35s ease;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 30px rgba(0,0,0,0.15) !important;
+}
+
+.card img{
+    height:230px;
+    object-fit:cover;
+}
+
+/* ================= SERVICES ================= */
+.bi{
+    background:#f3ede6;
+    padding:18px;
+    border-radius:50%;
+    transition:0.3s;
+}
+
+.col-md-3:hover .bi{
+    background:#b08968;
+    color:white;
+    transform:scale(1.1);
+}
+
+/* ================= WHY CHOOSE ================= */
+.lead{
+    color:#555;
+    font-size:18px;
+}
+
+/* ================= FORM ================= */
+form{
+    max-width:700px;
+    margin:auto;
+}
+
+.form-control, .form-select{
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #ddd;
+}
+
+.form-control:focus, .form-select:focus{
+    border-color:#b08968;
+    box-shadow:0 0 5px rgba(176,137,104,0.4);
+}
+
+textarea{
+    resize:none;
+}
+
+/* submit button center hover */
+form .btn-dark{
+    margin-top:10px;
+}
+
+/* ================= FOOTER ================= */
+footer{
+    letter-spacing:0.5px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:768px){
+
+    section.bg-dark{
+        min-height:60vh;
+        padding:40px 15px;
+    }
+
+    section.bg-dark h1{
+        font-size:28px;
+    }
+
+    .card img{
+        height:200px;
+    }
+}
