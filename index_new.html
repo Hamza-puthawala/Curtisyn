@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curtisyn | Curtains & Nets</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Additional styles for the new design */
+        .hero-section {
+            background: url('https://images.unsplash.com/photo-1615874959474-d609969a20ed?q=80&w=1600') center/cover no-repeat;
+            position: relative;
+        }
+        
+        .hero-overlay {
+            background: rgba(0,0,0,0.55);
+            border-radius: 10px;
+        }
+        
+        .category-card {
+            transition: all 0.3s ease;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .service-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .service-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .btn-custom {
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .inquiry-form {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+
+<body style="background:#f8f6f2; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-3 text-dark" href="#">
+        <i class="fas fa-curtain me-2"></i>Curtisyn
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav ms-auto text-center">
+        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Curtains</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Roller Curtains</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Mosquito Nets</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+        <li class="nav-item ms-lg-3">
+            <a class="btn btn-dark btn-custom px-4" href="login.html">Login</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HERO SECTION ================= -->
+<section class="hero-section py-5">
+    <div class="container py-5 hero-overlay">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-4 fw-bold text-white mb-3">Premium Curtains & Mosquito Net Solutions</h1>
+                <p class="lead text-white mb-4">Enhance your home beauty with stylish and protective interiors</p>
+                <a href="#" class="btn btn-light btn-custom btn-lg px-4 me-2">Explore Products</a>
+                <a href="#" class="btn btn-outline-light btn-custom btn-lg px-4">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= CATEGORIES ================= -->
+<section class="container py-5">
+    <h2 class="text-center mb-5 fw-bold section-title">Our Categories</h2>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="category-card h-100">
+                <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1000" class="card-img-top" alt="Curtains" style="height: 250px; object-fit: cover;">
+                <div class="card-body text-center p-4">
+                    <h5 class="fw-bold mb-3"><i class="fas fa-window-cover me-2 text-primary"></i>Curtains</h5>
+                    <p class="text-muted">Elegant fabric curtains for modern interiors</p>
+                    <a href="#" class="btn btn-outline-dark btn-custom">View Collection</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="category-card h-100">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1000" class="card-img-top" alt="Roller Curtains" style="height: 250px; object-fit: cover;">
+                <div class="card-body text-center p-4">
+                    <h5 class="fw-bold mb-3"><i class="fas fa-window-shade me-2 text-primary"></i>Roller Curtains</h5>
+                    <p class="text-muted">Smart sliding blinds for office & home</p>
+                    <a href="#" class="btn btn-outline-dark btn-custom">View Collection</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="category-card h-100">
+                <img src="https://images.unsplash.com/photo-1628744404737-577e4ebc9c43?q=80&w=1000" class="card-img-top" alt="Mosquito Nets" style="height: 250px; object-fit: cover;">
+                <div class="card-body text-center p-4">
+                    <h5 class="fw-bold mb-3"><i class="fas fa-bed me-2 text-primary"></i>Mosquito Nets</h5>
+                    <p class="text-muted">Protection with fresh airflow & comfort</p>
+                    <a href="#" class="btn btn-outline-dark btn-custom">View Collection</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="py-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-5 section-title">Our Services</h2>
+
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="service-icon">
+                    <i class="bi bi-house-check fs-1 text-dark mb-3"></i>
+                </div>
+                <h5 class="mt-3 fw-bold">Home Measurement</h5>
+                <p class="text-muted">Accurate size taken by expert</p>
+            </div>
+
+            <div class="col-md-3">
+                <div class="service-icon">
+                    <i class="bi bi-tools fs-1 text-dark mb-3"></i>
+                </div>
+                <h5 class="mt-3 fw-bold">Installation</h5>
+                <p class="text-muted">Professional fitting service</p>
+            </div>
+
+            <div class="col-md-3">
+                <div class="service-icon">
+                    <i class="bi bi-arrow-repeat fs-1 text-dark mb-3"></i>
+                </div>
+                <h5 class="mt-3 fw-bold">Repair</h5>
+                <p class="text-muted">Quick repair & replacement</p>
+            </div>
+
+            <div class="col-md-3">
+                <div class="service-icon">
+                    <i class="bi bi-headset fs-1 text-dark mb-3"></i>
+                </div>
+                <h5 class="mt-3 fw-bold">Support</h5>
+                <p class="text-muted">Customer help anytime</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= WHY CHOOSE US ================= -->
+<section class="py-5">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-4 section-title">Why Choose Curtisyn?</h2>
+        <p class="lead text-muted">Quality materials • Affordable price • Expert servicemen • Direct supplier connection</p>
+        
+        <div class="row mt-5">
+            <div class="col-md-3 mb-4">
+                <div class="p-4 rounded-3" style="background: #f8f9fa; border-left: 4px solid #e74c3c;">
+                    <i class="fas fa-star fs-2 text-warning mb-3"></i>
+                    <h5>Premium Quality</h5>
+                    <p class="text-muted">Best materials for durability</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-4">
+                <div class="p-4 rounded-3" style="background: #f8f9fa; border-left: 4px solid #3498db;">
+                    <i class="fas fa-tag fs-2 text-primary mb-3"></i>
+                    <h5>Best Price</h5>
+                    <p class="text-muted">Competitive rates guaranteed</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-4">
+                <div class="p-4 rounded-3" style="background: #f8f9fa; border-left: 4px solid #27ae60;">
+                    <i class="fas fa-truck fs-2 text-success mb-3"></i>
+                    <h5>Fast Delivery</h5>
+                    <p class="text-muted">Quick installation service</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-4">
+                <div class="p-4 rounded-3" style="background: #f8f9fa; border-left: 4px solid #f39c12;">
+                    <i class="fas fa-shield-alt fs-2 text-warning mb-3"></i>
+                    <h5>Warranty</h5>
+                    <p class="text-muted">Long-term protection</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= INQUIRY FORM ================= -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="inquiry-form">
+                    <h2 class="text-center fw-bold mb-4 section-title">Send Inquiry</h2>
+
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control py-3" placeholder="Full Name" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <input type="tel" class="form-control py-3" placeholder="Phone Number" required>
+                        </div>
+
+                        <div class="col-12">
+                            <select class="form-select py-3">
+                                <option>Select Product</option>
+                                <option>Curtains</option>
+                                <option>Roller Curtains</option>
+                                <option>Mosquito Nets</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <textarea class="form-control" rows="4" placeholder="Your Message" style="padding: 15px;"></textarea>
+                        </div>
+
+                        <div class="col-12 text-center">
+                            <button class="btn btn-dark btn-custom px-5 py-3">Submit Inquiry</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-dark text-white text-center py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-3 mb-md-0">
+                <h5 class="mb-3">Curtisyn</h5>
+                <p class="mb-0">Premium Curtains & Net Installation Services</p>
+            </div>
+            
+            <div class="col-md-4 mb-3 mb-md-0">
+                <h5 class="mb-3">Quick Links</h5>
+                <div class="d-flex flex-column">
+                    <a href="#" class="text-white text-decoration-none mb-1">Home</a>
+                    <a href="#" class="text-white text-decoration-none mb-1">Products</a>
+                    <a href="#" class="text-white text-decoration-none mb-1">Services</a>
+                    <a href="#" class="text-white text-decoration-none">Contact</a>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <h5 class="mb-3">Connect With Us</h5>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="#" class="text-white text-decoration-none fs-4 me-3"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-white text-decoration-none fs-4 me-3"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white text-decoration-none fs-4 me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white text-decoration-none fs-4"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <hr class="my-4 bg-light">
+        <p class="mb-0">Curtisyn © 2026 | Developed for Zaid Enterprises</p>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+</body>
+</html>

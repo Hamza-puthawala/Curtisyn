@@ -15,13 +15,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $fullName = sanitizeInput($_POST['full_name'] ?? '');
         $email = sanitizeInput($_POST['email'] ?? '');
+        $phone = sanitizeInput($_POST['phone'] ?? '');
         $password = $_POST['password'] ?? '';
         $confirmPassword = $_POST['confirm_password'] ?? '';
         
-        if (empty($fullName) || empty($email) || empty($password) || empty($confirmPassword)) {
+        if (empty($fullName) || empty($email) || empty($phone) || empty($password) || empty($confirmPassword)) {
             $error = 'All fields required.';
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $error = 'Invalid email.';
+        } elseif (!preg_match('/^[0-9]{10}$/', $phone)) {
+            $error = 'Phone number must be 10 digits.';
         } elseif (strlen($password) < 6) {
             $error = 'Password must be 6+ characters.';
         } elseif ($password !== $confirmPassword) {
@@ -42,9 +45,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
                         $role = 'customer';
                         
-                        $stmt = $db->prepare("INSERT INTO users (full_name, email, password, role) VALUES (:full_name, :email, :password, :role)");
+                        $stmt = $db->prepare("INSERT INTO users (full_name, email, phone, password, role) VALUES (:full_name, :email, :phone, :password, :role)");
                         $stmt->bindParam(':full_name', $fullName);
                         $stmt->bindParam(':email', $email);
+                        $stmt->bindParam(':phone', $phone);
                         $stmt->bindParam(':password', $hashedPassword);
                         $stmt->bindParam(':role', $role);
                         
@@ -80,7 +84,7 @@ require_once 'includes/header.php';
             if ($error) echo displayError($error);
             if ($success) {
                 echo displaySuccess($success);
-                echo '<p style="text-align: center; margin-top: 1rem;"><a href="login.php">Login here</a></p>';
+                echo '<p style="text-align: center; margin-top: 1rem;"><a href="auth.php">Login here</a></p>';
             }
             ?>
             
@@ -96,6 +100,11 @@ require_once 'includes/header.php';
                 <div class="form-group">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" id="email" name="email" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" class="form-input" placeholder="Enter 10-digit phone number" maxlength="10" pattern="[0-9]{10}" required>
                 </div>
                 
                 <div class="form-group">
@@ -122,7 +131,7 @@ require_once 'includes/header.php';
             </form>
             
             <p style="text-align: center; margin-top: 1.5rem;">
-                Have an account? <a href="login.php">Login</a>
+                Have an account? <a href="auth.php">Login</a>
             </p>
             <?php endif; ?>
         </div>

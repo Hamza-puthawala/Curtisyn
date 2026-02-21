@@ -77,9 +77,9 @@ $userRole = getUserRole();
         <?php endif; ?>
         
         <div class="product-detail">
-            <div class="product-detail-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <div class="product-detail-image" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.7), rgba(118, 75, 162, 0.7)); border-radius: 10px; overflow: hidden;">
                 <?php if ($product['image']): ?>
-                    <img src="uploads/products/<?php echo htmlspecialchars($product['image']); ?>" alt="" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+                    <img src="uploads/products/<?php echo htmlspecialchars($product['image']); ?>" alt="" style="width: 90%; height: auto; object-fit: contain; border-radius: 8px; display: block; margin: 5% auto;">
                 <?php endif; ?>
             </div>
             <div class="product-detail-info">

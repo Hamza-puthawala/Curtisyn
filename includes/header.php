@@ -1,4 +1,8 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/../config/database.php';
 
@@ -17,199 +21,283 @@ if ($isLoggedIn) {
         $cartCount = $stmt->fetch()['count'] ?? 0;
     }
 }
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) . ' - ' : ''; ?>Curtisyn</title>
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* ── Three-dot dropdown ── */
-        .nav-dots-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.4rem 0.6rem;
-            border-radius: 50%;
-            font-size: 1.35rem;
-            color: var(--primary-color);
-            line-height: 1;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .nav-dots-btn:hover {
-            background: var(--bg-light);
-            color: var(--secondary-color);
-        }
-        .nav-dots-wrapper {
-            position: relative;
-        }
-        .nav-dropdown {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: calc(100% + 10px);
-            background: var(--white);
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-            min-width: 200px;
-            z-index: 2000;
-            overflow: hidden;
-            animation: dropFadeIn 0.18s ease;
-        }
-        .nav-dropdown.open { display: block; }
-        @keyframes dropFadeIn {
-            from { opacity: 0; transform: translateY(-8px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        .nav-dropdown a {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.8rem 1.2rem;
-            color: var(--text-dark);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: background 0.15s ease;
-        }
-        .nav-dropdown a i { width: 18px; color: var(--accent-color); }
-        .nav-dropdown a:hover { background: var(--bg-light); color: var(--secondary-color); }
-        .nav-dropdown a:hover i { color: var(--secondary-color); }
-        .nav-dropdown .dropdown-divider {
-            border: none;
-            border-top: 1px solid #eee;
-            margin: 4px 0;
-        }
-        .nav-dropdown .dropdown-logout {
-            color: var(--danger-color) !important;
-        }
-        .nav-dropdown .dropdown-logout i { color: var(--danger-color) !important; }
-        .nav-cart-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-weight: 500;
-        }
-        .cart-bubble {
-            background: var(--secondary-color);
-            color: white;
-            padding: 1px 6px;
-            border-radius: 10px;
-            font-size: 0.72rem;
-            font-weight: 700;
-        }
-    </style>
-</head>
-<body>
-    <header class="header">
-        <div class="container">
-            <nav class="navbar">
-                <a href="<?php echo BASE_URL; ?>index.php" class="logo">Curtisyn</a>
 
-                <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-                    <span></span><span></span><span></span>
-                </button>
+// Output the HTML head and navigation
+echo '<!DOCTYPE html>';
+echo '<html lang="en">';
+echo '<head>';
+echo '    <meta charset="UTF-8">';
+echo '    <meta name="viewport" content="width=device-width, initial-scale=1.0">';
+echo '    <title>' . (isset($pageTitle) ? htmlspecialchars($pageTitle) . ' - ' : '') . 'Curtisyn</title>';
+echo '    <link rel="stylesheet" href="' . BASE_URL . 'assets/css/style.css">';
+echo '    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">';
+echo '    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">';
+echo '    <style>';
+echo '        /* ── Three-dot dropdown ── */';
+echo '        .nav-dots-btn {';
+echo '            background: none;';
+echo '            border: none;';
+echo '            cursor: pointer;';
+echo '            padding: 0.4rem 0.6rem;';
+echo '            border-radius: 50%;';
+echo '            font-size: 1.35rem;';
+echo '            color: var(--primary-color);';
+echo '            line-height: 1;';
+echo '            transition: var(--transition);';
+echo '            display: flex;';
+echo '            align-items: center;';
+echo '            justify-content: center;';
+echo '        }';
+echo '        .nav-dots-btn:hover {';
+echo '            background: var(--bg-light);';
+echo '            color: var(--secondary-color);';
+echo '        }';
+echo '        .nav-dots-wrapper {';
+echo '            position: relative;';
+echo '        }';
+echo '        .nav-dropdown {';
+echo '            display: none;';
+echo '            position: absolute;';
+echo '            right: 0;';
+echo '            top: calc(100% + 10px);';
+echo '            background: var(--white);';
+echo '            border-radius: 12px;';
+echo '            box-shadow: 0 8px 30px rgba(0,0,0,0.15);';
+echo '            min-width: 200px;';
+echo '            z-index: 2000;';
+echo '            overflow: hidden;';
+echo '            animation: dropFadeIn 0.18s ease;';
+echo '        }';
+echo '        .nav-dropdown.open { display: block; }';
+echo '        @keyframes dropFadeIn {';
+echo '            from { opacity: 0; transform: translateY(-8px); }';
+echo '            to   { opacity: 1; transform: translateY(0); }';
+echo '        }';
+echo '        .nav-dropdown a {';
+echo '            display: flex;';
+echo '            align-items: center;';
+echo '            gap: 0.75rem;';
+echo '            padding: 0.8rem 1.2rem;';
+echo '            color: var(--text-dark);';
+echo '            text-decoration: none;';
+echo '            font-weight: 500;';
+echo '            font-size: 0.95rem;';
+echo '            transition: background 0.15s ease;';
+echo '        }';
+echo '        .nav-dropdown a i { width: 18px; color: var(--accent-color); }';
+echo '        .nav-dropdown a:hover { background: var(--bg-light); color: var(--secondary-color); }';
+echo '        .nav-dropdown a:hover i { color: var(--secondary-color); }';
+echo '        .nav-dropdown .dropdown-divider {';
+echo '            border: none;';
+echo '            border-top: 1px solid #eee;';
+echo '            margin: 4px 0;';
+echo '        }';
+echo '        .nav-dropdown .dropdown-logout {';
+echo '            color: var(--danger-color) !important;';
+echo '        }';
+echo '        .nav-dropdown .dropdown-logout i { color: var(--danger-color) !important; }';
+echo '        .nav-cart-badge {';
+echo '            display: inline-flex;';
+echo '            align-items: center;';
+echo '            gap: 0.4rem;';
+echo '            font-weight: 500;';
+echo '        }';
+echo '        .cart-bubble {';
+echo '            background: var(--secondary-color);';
+echo '            color: white;';
+echo '            padding: 1px 6px;';
+echo '            border-radius: 10px;';
+echo '            font-size: 0.72rem;';
+echo '            font-weight: 700;';
+echo '        }';
+echo '        ';
+echo '        /* Modern navigation styles */';
+echo '        .modern-navbar {';
+echo '            background: white;';
+echo '            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);';
+echo '            padding: 1rem 0;';
+echo '        }';
+echo '        ';
+echo '        .modern-logo {';
+echo '            font-size: 1.5rem;';
+echo '            font-weight: 700;';
+echo '            color: var(--primary-color);';
+echo '            text-decoration: none;';
+echo '            white-space: nowrap;';
+echo '        }';
+echo '        ';
+echo '        .modern-nav-link {';
+echo '            text-decoration: none;';
+echo '            color: var(--text-dark);';
+echo '            font-weight: 500;';
+echo '            transition: var(--transition);';
+echo '            position: relative;';
+echo '            font-size: 1rem;';
+echo '            padding: 0.5rem 1rem;';
+echo '            border-radius: 8px;';
+echo '        }';
+echo '        ';
+echo '        .modern-nav-link:hover,';
+echo '        .modern-nav-link.active {';
+echo '            color: var(--secondary-color);';
+echo '            background: var(--bg-light);';
+echo '        }';
+echo '        ';
+echo '        .btn-custom {';
+echo '            border-radius: 50px;';
+echo '            padding: 8px 20px;';
+echo '            font-weight: 600;';
+echo '            transition: all 0.3s ease;';
+echo '            text-decoration: none;';
+echo '        }';
+echo '        ';
+echo '        /* Cart badge positioning */';
+echo '        .cart-badge-position {';
+echo '            position: relative;';
+echo '        }';
+echo '        .cart-count {';
+echo '            position: absolute;';
+echo '            top: -8px;';
+echo '            right: -8px;';
+echo '            background: var(--secondary-color);';
+echo '            color: white;';
+echo '            font-size: 0.7rem;';
+echo '            font-weight: bold;';
+echo '            min-width: 18px;';
+echo '            height: 18px;';
+echo '            border-radius: 50%;';
+echo '            display: flex;';
+echo '            align-items: center;';
+echo '            justify-content: center;';
+echo '            border: 2px solid white;';
+echo '        }';
+echo '    </style>';
+echo '</head>';
+echo '<body>';
+echo '    <header class="header">';
+echo '        <nav class="navbar navbar-expand-lg modern-navbar">';
+echo '          <div class="container">';
+echo '            <a class="modern-logo" href="' . BASE_URL . 'index.php">';
+echo '                <i class="fas fa-curtain me-2"></i>Curtisyn';
+echo '            </a>';
 
-                <ul class="nav-menu" id="navMenu">
-                    <li><a href="<?php echo BASE_URL; ?>index.php"    class="nav-link<?php echo ($currentPage??'') === 'home'     ? ' active' : ''; ?>">Home</a></li>
-                    <li><a href="<?php echo BASE_URL; ?>products.php" class="nav-link<?php echo ($currentPage??'') === 'products' ? ' active' : ''; ?>">Products</a></li>
-                    <li><a href="<?php echo BASE_URL; ?>contact.php"  class="nav-link<?php echo ($currentPage??'') === 'contact'  ? ' active' : ''; ?>">Contact</a></li>
+echo '            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">';
+echo '              <span class="navbar-toggler-icon"></span>';
+echo '            </button>';
 
-                    <?php if ($isLoggedIn && $role === 'customer'): ?>
-                        <!-- Cart link always visible for customers -->
-                        <li>
-                            <a href="<?php echo BASE_URL; ?>cart.php" class="nav-link nav-cart-badge<?php echo ($currentPage??'') === 'cart' ? ' active' : ''; ?>">
-                                <i class="fas fa-shopping-cart"></i> Cart
-                                <?php if ($cartCount > 0): ?>
-                                    <span class="cart-bubble"><?php echo $cartCount; ?></span>
-                                <?php endif; ?>
-                            </a>
-                        </li>
-                        <!-- Three-dot dropdown -->
-                        <li class="nav-dots-wrapper">
-                            <button class="nav-dots-btn" id="dotsBtn" aria-label="More options">&#8942;</button>
-                            <div class="nav-dropdown" id="navDropdown">
-                                <a href="<?php echo BASE_URL; ?>my-orders.php"><i class="fas fa-box-open"></i> My Orders</a>
-                                <a href="<?php echo BASE_URL; ?>my-account.php"><i class="fas fa-user-circle"></i> My Account</a>
-                                <a href="<?php echo BASE_URL; ?>my-inquiries.php"><i class="fas fa-question-circle"></i> My Inquiries</a>
-                                <div class="dropdown-divider"></div>
-                                <a href="<?php echo BASE_URL; ?>about.php"><i class="fas fa-info-circle"></i> About</a>
-                                <div class="dropdown-divider"></div>
-                                <a href="<?php echo BASE_URL; ?>logout.php" class="dropdown-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                            </div>
-                        </li>
+echo '            <div class="collapse navbar-collapse" id="navmenu">';
+echo '              <ul class="navbar-nav ms-auto text-center">';
+echo '                <li class="nav-item">';
+echo '                    <a class="modern-nav-link' . (($currentPage ?? '') === 'home' ? ' active' : '') . '" href="' . BASE_URL . 'index.php">Home</a>';
+echo '                </li>';
+echo '                <li class="nav-item">';
+echo '                    <a class="modern-nav-link' . (($currentPage ?? '') === 'products' ? ' active' : '') . '" href="' . BASE_URL . 'products.php">Products</a>';
+echo '                </li>';
+echo '                <li class="nav-item">';
+echo '                    <a class="modern-nav-link' . (($currentPage ?? '') === 'contact' ? ' active' : '') . '" href="' . BASE_URL . 'contact.php">Contact</a>';
+echo '                </li>';
+echo '                <li class="nav-item">';
+echo '                    <a class="modern-nav-link' . (($currentPage ?? '') === 'about' ? ' active' : '') . '" href="' . BASE_URL . 'about.php">About</a>';
+echo '                </li>';
 
-                    <?php elseif ($isLoggedIn && ($role === 'admin' || $role === 'employee' || $role === 'supplier')): ?>
-                        <?php
-                        $dashUrl = BASE_URL;
-                        switch ($role) {
-                            case 'admin':    $dashUrl = BASE_URL . 'admin/dashboard-new.php'; break;
-                            case 'employee': $dashUrl = BASE_URL . 'employee/dashboard-new.php'; break;
-                            case 'supplier': $dashUrl = BASE_URL . 'supplier/dashboard-new.php'; break;
-                        }
-                        ?>
-                        <li><a href="<?php echo $dashUrl; ?>" class="nav-link" style="color: var(--accent-color);"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                        <li><a href="<?php echo BASE_URL; ?>logout.php" class="nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+if ($isLoggedIn && $role === 'customer') {
+    echo '                <!-- Cart link always visible for customers -->';
+    echo '                <li class="nav-item position-relative">';
+    echo '                    <a href="' . BASE_URL . 'cart.php" class="modern-nav-link d-flex align-items-center' . (($currentPage ?? '') === 'cart' ? ' active' : '') . '">';
+    echo '                        <i class="fas fa-shopping-cart me-2"></i>Cart';
+    if ($cartCount > 0) {
+        echo '                        <span class="cart-count">' . $cartCount . '</span>';
+    }
+    echo '                    </a>';
+    echo '                </li>';
+    echo '                <!-- Account dropdown -->';
+    echo '                <li class="nav-item dropdown">';
+    echo '                    <a class="modern-nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">';
+    echo '                        <i class="fas fa-user-circle me-2"></i>Account';
+    echo '                    </a>';
+    echo '                    <ul class="dropdown-menu dropdown-menu-end">';
+    echo '                        <li><a class="dropdown-item" href="' . BASE_URL . 'my-orders.php"><i class="fas fa-box-open me-2"></i>My Orders</a></li>';
+    echo '                        <li><a class="dropdown-item" href="' . BASE_URL . 'my-account.php"><i class="fas fa-user-circle me-2"></i>My Account</a></li>';
+    echo '                        <li><a class="dropdown-item" href="' . BASE_URL . 'my-inquiries.php"><i class="fas fa-question-circle me-2"></i>My Inquiries</a></li>';
+    echo '                        <li><hr class="dropdown-divider"></li>';
+    echo '                        <a class="dropdown-item" href="' . BASE_URL . 'logout.php" class="dropdown-logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>';
+    echo '                    </ul>';
+    echo '                </li>';
+} elseif ($isLoggedIn && ($role === 'admin' || $role === 'employee' || $role === 'supplier')) {
+    $dashUrl = BASE_URL;
+    switch ($role) {
+        case 'admin':    $dashUrl = BASE_URL . 'admin/dashboard-new.php'; break;
+        case 'employee': $dashUrl = BASE_URL . 'employee/dashboard-new.php'; break;
+        case 'supplier': $dashUrl = BASE_URL . 'supplier/dashboard-new.php'; break;
+    }
+    echo '                <li class="nav-item">';
+    echo '                    <a href="' . $dashUrl . '" class="modern-nav-link" style="color: var(--accent-color);">';
+    echo '                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard';
+    echo '                    </a>';
+    echo '                </li>';
+    echo '                <li class="nav-item">';
+    echo '                    <a href="' . BASE_URL . 'logout.php" class="modern-nav-link">';
+    echo '                        <i class="fas fa-sign-out-alt me-2"></i>Logout';
+    echo '                    </a>';
+    echo '                </li>';
+} else {
+    echo '                <li class="nav-item">';
+    echo '                    <a href="' . BASE_URL . 'auth.php" class="modern-nav-link' . ((($currentPage ?? '') === 'login' || ($currentPage ?? '') === 'register' || ($currentPage ?? '') === 'auth') ? ' active' : '') . '">';
+    echo '                        <i class="fas fa-user-circle me-2"></i>Sign In';
+    echo '                    </a>';
+    echo '                </li>';
+}
+echo '              </ul>';
+echo '            </div>';
+echo '          </div>';
+echo '        </nav>';
+echo '    </header>';
+echo '    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>';
+echo '    <script>';
+echo '        document.addEventListener(\'DOMContentLoaded\', function () {';
+echo '            var toggle  = document.getElementById(\'navToggle\');';
+echo '            var menu    = document.getElementById(\'navMenu\');';
+echo '            var dotsBtn = document.getElementById(\'dotsBtn\');';
+echo '            var navDropdown = document.getElementById(\'navDropdown\');';
 
-                    <?php else: ?>
-                        <li><a href="<?php echo BASE_URL; ?>login.php"    class="nav-link<?php echo ($currentPage??'') === 'login'    ? ' active' : ''; ?>">Login</a></li>
-                        <li><a href="<?php echo BASE_URL; ?>register.php" class="nav-link<?php echo ($currentPage??'') === 'register' ? ' active' : ''; ?>">Register</a></li>
-                    <?php endif; ?>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var toggle  = document.getElementById('navToggle');
-            var menu    = document.getElementById('navMenu');
-            var dotsBtn = document.getElementById('dotsBtn');
-            var navDropdown = document.getElementById('navDropdown');
+echo '            // ── Hamburger toggle ──';
+echo '            if (toggle && menu) {';
+echo '                toggle.addEventListener(\'click\', function (e) {';
+echo '                    e.stopPropagation();';
+echo '                    menu.classList.toggle(\'active\');';
+echo '                    // animate hamburger lines';
+echo '                    toggle.classList.toggle(\'open\');';
+echo '                });';
 
-            // ── Hamburger toggle ──
-            if (toggle && menu) {
-                toggle.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    menu.classList.toggle('active');
-                    // animate hamburger lines
-                    toggle.classList.toggle('open');
-                });
+echo '                // Close menu when any nav link is clicked (mobile UX)';
+echo '                menu.querySelectorAll(\'a.nav-link\').forEach(function (link) {';
+echo '                    link.addEventListener(\'click\', function () {';
+echo '                        menu.classList.remove(\'active\');';
+echo '                        toggle.classList.remove(\'open\');';
+echo '                    });';
+echo '                });';
 
-                // Close menu when any nav link is clicked (mobile UX)
-                menu.querySelectorAll('a.nav-link').forEach(function (link) {
-                    link.addEventListener('click', function () {
-                        menu.classList.remove('active');
-                        toggle.classList.remove('open');
-                    });
-                });
+echo '                // Close menu when clicking outside';
+echo '                document.addEventListener(\'click\', function (e) {';
+echo '                    if (!menu.contains(e.target) && !toggle.contains(e.target)) {';
+echo '                        menu.classList.remove(\'active\');';
+echo '                        toggle.classList.remove(\'open\');';
+echo '                    }';
+echo '                });';
+echo '            }';
 
-                // Close menu when clicking outside
-                document.addEventListener('click', function (e) {
-                    if (!menu.contains(e.target) && !toggle.contains(e.target)) {
-                        menu.classList.remove('active');
-                        toggle.classList.remove('open');
-                    }
-                });
-            }
-
-            // ── Three-dot dropdown ──
-            if (dotsBtn && navDropdown) {
-                dotsBtn.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    navDropdown.classList.toggle('open');
-                });
-                document.addEventListener('click', function () {
-                    navDropdown.classList.remove('open');
-                });
-                navDropdown.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                });
-            }
-        });
-    </script>
+echo '            // ── Three-dot dropdown ──';
+echo '            if (dotsBtn && navDropdown) {';
+echo '                dotsBtn.addEventListener(\'click\', function (e) {';
+echo '                    e.stopPropagation();';
+echo '                    navDropdown.classList.toggle(\'open\');';
+echo '                });';
+echo '                document.addEventListener(\'click\', function () {';
+echo '                    navDropdown.classList.remove(\'open\');';
+echo '                });';
+echo '                navDropdown.addEventListener(\'click\', function (e) {';
+echo '                    e.stopPropagation();';
+echo '                });';
+echo '            }';
+echo '        });';
+echo '    </script>';

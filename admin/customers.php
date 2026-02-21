@@ -73,7 +73,7 @@ if (isset($_GET['toggle']) && is_numeric($_GET['toggle'])) {
 
 $customers = [];
 if ($db) {
-    $stmt = $db->query("SELECT * FROM users WHERE role = 'customer' ORDER BY created_at DESC");
+    $stmt = $db->query("SELECT id, full_name, email, phone, status, created_at FROM users WHERE role = 'customer' ORDER BY created_at DESC");
     $customers = $stmt->fetchAll();
 }
 ?>
@@ -102,6 +102,7 @@ if ($db) {
                         <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Phone</th>
                         <th>Status</th>
                         <th>Registered</th>
                         <th>Actions</th>
@@ -113,6 +114,7 @@ if ($db) {
                         <td><?php echo $customer['id']; ?></td>
                         <td><?php echo htmlspecialchars($customer['full_name']); ?></td>
                         <td><?php echo htmlspecialchars($customer['email']); ?></td>
+                        <td><?php echo htmlspecialchars($customer['phone'] ?? ''); ?></td>
                         <td><span class="badge badge-<?php echo $customer['status']; ?>"><?php echo ucfirst($customer['status']); ?></span></td>
                         <td><?php echo date('Y-m-d', strtotime($customer['created_at'])); ?></td>
                         <td>

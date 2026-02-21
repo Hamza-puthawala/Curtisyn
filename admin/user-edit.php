@@ -29,6 +29,7 @@ if (!$user) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fullName = trim($_POST['full_name'] ?? '');
     $email = trim($_POST['email'] ?? '');
+    $phone = trim($_POST['phone'] ?? '');
     $role = $_POST['role'] ?? 'customer';
     $status = $_POST['status'] ?? 'active';
     $password = $_POST['password'] ?? '';
@@ -37,6 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Name and email are required.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'Please enter a valid email address.';
+    } elseif (!empty($phone) && !preg_match('/^[0-9]{10}$/', $phone)) {
+        $error = 'Phone number must be 10 digits.';
     } else {
         // Check if email already exists for other users
         $checkStmt = $db->prepare("SELECT id FROM users WHERE email = :email AND id != :id");
@@ -51,15 +54,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!empty($password)) {
                 // Update with new password
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-                $updateStmt = $db->prepare("UPDATE users SET full_name = :full_name, email = :email, role = :role, status = :status, password = :password WHERE id = :id");
+                $updateStmt = $db->prepare("UPDATE users SET full_name = :full_name, email = :email, phone = :phone, role = :role, status = :status, password = :password WHERE id = :id");
                 $updateStmt->bindParam(':password', $hashedPassword);
             } else {
                 // Update without changing password
-                $updateStmt = $db->prepare("UPDATE users SET full_name = :full_name, email = :email, role = :role, status = :status WHERE id = :id");
+                $updateStmt = $db->prepare("UPDATE users SET full_name = :full_name, email = :email, phone = :phone, role = :role, status = :status WHERE id = :id");
             }
 
             $updateStmt->bindParam(':full_name', $fullName);
             $updateStmt->bindParam(':email', $email);
+            $updateStmt->bindParam(':phone', $phone);
             $updateStmt->bindParam(':role', $role);
             $updateStmt->bindParam(':status', $status);
             $updateStmt->bindParam(':id', $userId);
@@ -100,11 +104,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label class="form-label">Full Name <span style="color: #e74c3c;">*</span></label>
                     <input type="text" name="full_name" class="form-input" value="<?php echo htmlspecialchars($user['full_name']); ?>" required>
                 </div>
-
+            
                 <div class="form-group">
                     <label class="form-label">Email <span style="color: #e74c3c;">*</span></label>
                     <input type="email" name="email" class="form-input" value="<?php echo htmlspecialchars($user['email']); ?>" required>
                 </div>
+            </div>
+                        
+            <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" name="phone" class="form-input" value="<?php echo htmlspecialchars($user['phone']); ?>" placeholder="Enter 10-digit phone number" maxlength="10" pattern="[0-9]{10}">
             </div>
 
             <div class="grid-2">

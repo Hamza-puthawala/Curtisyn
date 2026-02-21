@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             if ($db) {
                 try {
-                    $stmt = $db->prepare("SELECT id, full_name, password, role, status FROM users WHERE email = :email");
+                    $stmt = $db->prepare("SELECT id, full_name, phone, password, role, status FROM users WHERE email = :email");
                     $stmt->bindParam(':email', $email);
                     $stmt->execute();
                     
@@ -102,7 +102,7 @@ require_once 'includes/header.php';
             </form>
             
             <p style="text-align: center; margin-top: 1.5rem;">
-                No account? <a href="<?php echo BASE_URL; ?>register.php">Register</a>
+                No account? <a href="<?php echo BASE_URL; ?>auth.php">Register</a>
             </p>
         </div>
     </div>
