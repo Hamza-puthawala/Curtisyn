@@ -1,14 +1,11 @@
 <?php
-$pageTitle = 'Add Product';
-$activePage = 'add-product';
-require_once 'layout.php';
+// Process form BEFORE including layout.php to allow header() redirects
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../includes/auth.php';
+requireAdmin();
 
-$categories = [];
-if ($db) {
-    $stmt = $db->query("SELECT * FROM categories ORDER BY name");
-    $categories = $stmt->fetchAll();
-}
+$database = new Database();
+$db = $database->connect();
 
 $product = [
     'id' => 0,
@@ -25,9 +22,7 @@ $success = '';
 
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $id = intval($_GET['id']);
-    $pageTitle = 'Edit Product';
-    $activePage = 'products';
-    
+
     if ($db) {
         $stmt = $db->prepare("SELECT * FROM products WHERE id = :id");
         $stmt->bindParam(':id', $id);
@@ -46,12 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $price = floatval($_POST['price'] ?? 0);
         $stock = intval($_POST['stock'] ?? 0);
         $status = $_POST['status'] ?? 'enabled';
-        
+
         if (empty($name) || $price <= 0) {
             $error = 'Name and valid price required.';
         } else {
             $imageName = $product['image'] ?? '';
-            
+
             if (!empty($_FILES['image']['name'])) {
                 $upload = uploadFile($_FILES['image'], __DIR__ . '/../uploads/products/');
                 if (isset($upload['error'])) {
@@ -60,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $imageName = $upload['filename'];
                 }
             }
-            
+
             if (empty($error)) {
                 if ($product['id'] > 0) {
                     $stmt = $db->prepare("UPDATE products SET name = :name, category_id = :category_id, description = :description, price = :price, stock = :stock, status = :status, image = :image WHERE id = :id");
@@ -70,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $createdBy = $_SESSION['user_id'];
                     $stmt->bindParam(':created_by', $createdBy);
                 }
-                
+
                 $stmt->bindParam(':name', $name);
                 $stmt->bindParam(':category_id', $categoryId);
                 $stmt->bindParam(':description', $description);
@@ -78,10 +73,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->bindParam(':stock', $stock);
                 $stmt->bindParam(':status', $status);
                 $stmt->bindParam(':image', $imageName);
-                
-                    if ($stmt->execute()) {
+
+                if ($stmt->execute()) {
                     $success = $product['id'] > 0 ? 'Product updated.' : 'Product added.';
                     if ($product['id'] === 0) {
+                        // Redirect BEFORE any HTML output
                         header('Location: ' . BASE_URL . 'admin/products.php');
                         exit();
                     }
@@ -91,6 +87,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
+}
+
+// Set page variables and include layout AFTER processing (so redirect above works)
+$pageTitle = ($product['id'] > 0) ? 'Edit Product' : 'Add Product';
+$activePage = ($product['id'] > 0) ? 'products' : 'add-product';
+require_once 'layout.php';
+
+$categories = [];
+if ($db) {
+    $stmt = $db->query("SELECT * FROM categories ORDER BY name");
+    $categories = $stmt->fetchAll();
 }
 
 $csrfToken = generateCsrfToken();

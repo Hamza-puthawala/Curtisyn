@@ -1,15 +1,16 @@
 <?php
-$pageTitle = 'My Cart';
-$currentPage = 'cart';
-require_once 'includes/header.php';
 require_once 'config/database.php';
 require_once 'includes/functions.php';
 
 // Check if user is logged in
 if (!isLoggedIn()) {
-    header('Location: ' . BASE_URL . 'login.php');
+    header('Location: login.php');
     exit();
 }
+
+$pageTitle = 'My Cart';
+$currentPage = 'cart';
+require_once 'includes/header.php';
 
 $database = new Database();
 $db = $database->connect();

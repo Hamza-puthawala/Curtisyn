@@ -1,6 +1,6 @@
 <?php
-require_once 'includes/header.php';
 require_once 'config/database.php';
+require_once 'includes/functions.php';
 
 if (!isLoggedIn()) {
     redirect('login.php');
@@ -12,6 +12,8 @@ $customerId = $_SESSION['user_id'];
 if (empty($inquiryId)) {
     redirect('my-inquiries.php');
 }
+
+require_once 'includes/header.php';
 
 $database = new Database();
 $db = $database->connect();
