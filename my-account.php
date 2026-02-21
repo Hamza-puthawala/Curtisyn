@@ -1,19 +1,20 @@
 <?php
-$pageTitle = 'My Account';
-$currentPage = 'account';
-require_once 'includes/header.php';
 require_once 'config/database.php';
 require_once 'includes/functions.php';
 
 // Restrict to logged-in customers only
 if (!isLoggedIn()) {
-    header('Location: ' . BASE_URL . 'login.php');
+    header('Location: login.php');
     exit();
 }
 if (getUserRole() !== 'customer') {
-    header('Location: ' . BASE_URL . 'index.php');
+    header('Location: index.php');
     exit();
 }
+
+$pageTitle = 'My Account';
+$currentPage = 'account';
+require_once 'includes/header.php';
 
 $database = new Database();
 $db = $database->connect();

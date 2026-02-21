@@ -1,8 +1,8 @@
 <?php
+$pageTitle = 'Inquiry Submitted';
 require_once 'includes/header.php';
 
 $inquiryId = $_GET['inquiry_id'] ?? '';
-$pageTitle = 'Inquiry Submitted';
 ?>
 
 <section class="section">

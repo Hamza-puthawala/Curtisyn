@@ -1,13 +1,15 @@
 <?php
+require_once 'config/database.php';
+require_once 'includes/functions.php';
+
+if (!isLoggedIn()) {
+    header('Location: login.php');
+    exit();
+}
+
 $pageTitle = 'Order Successful';
 $currentPage = 'products';
 require_once 'includes/header.php';
-require_once 'config/database.php';
-
-if (!isLoggedIn()) {
-    header('Location: ' . BASE_URL . 'login.php');
-    exit();
-}
 
 $orderId = $_GET['order_id'] ?? '';
 $order = null;

@@ -1,6 +1,6 @@
 <?php
-require_once 'includes/header.php';
 require_once 'config/database.php';
+require_once 'includes/functions.php';
 
 if (!isLoggedIn()) {
     redirect('login.php');
@@ -11,6 +11,8 @@ $productId = isset($_GET['product_id']) ? intval($_GET['product_id']) : 0;
 if ($productId === 0) {
     redirect('products.php');
 }
+
+require_once 'includes/header.php';
 
 $database = new Database();
 $db = $database->connect();

@@ -1,10 +1,12 @@
 <?php
-require_once 'includes/header.php';
 require_once 'config/database.php';
+require_once 'includes/functions.php';
 
 if (!isLoggedIn()) {
     redirect('login.php');
 }
+
+require_once 'includes/header.php';
 
 $customerId = $_SESSION['user_id'];
 $database = new Database();

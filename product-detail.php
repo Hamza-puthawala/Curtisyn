@@ -1,5 +1,4 @@
 <?php
-require_once 'includes/header.php';
 require_once 'config/database.php';
 require_once 'includes/functions.php';
 
@@ -8,6 +7,8 @@ $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 if ($id === 0) {
     redirect('products.php');
 }
+
+require_once 'includes/header.php';
 
 $database = new Database();
 $db = $database->connect();

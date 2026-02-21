@@ -1,7 +1,5 @@
 <?php
-$pageTitle = 'Register';
-$currentPage = 'register';
-require_once 'includes/header.php';
+require_once 'includes/functions.php';
 require_once 'config/database.php';
 
 if (isLoggedIn()) {
@@ -67,6 +65,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $csrfToken = generateCsrfToken();
+
+$pageTitle = 'Register';
+$currentPage = 'register';
+require_once 'includes/header.php';
 ?>
 
 <section class="section">
@@ -98,12 +100,22 @@ $csrfToken = generateCsrfToken();
                 
                 <div class="form-group">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" name="password" class="form-input" required>
+                    <div class="password-field">
+                        <input type="password" id="password" name="password" class="form-input" required>
+                        <button type="button" class="password-toggle" onclick="togglePwd('password',this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="confirm_password" class="form-label">Confirm Password</label>
-                    <input type="password" id="confirm_password" name="confirm_password" class="form-input" required>
+                    <div class="password-field">
+                        <input type="password" id="confirm_password" name="confirm_password" class="form-input" required>
+                        <button type="button" class="password-toggle" onclick="togglePwd('confirm_password',this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Register</button>
@@ -116,5 +128,29 @@ $csrfToken = generateCsrfToken();
         </div>
     </div>
 </section>
+
+<style>
+.password-field { position: relative; }
+.password-toggle {
+    position: absolute; right: 1rem; top: 50%;
+    transform: translateY(-50%);
+    background: none; border: none; cursor: pointer;
+    color: var(--text-light); font-size: 1rem;
+}
+.password-toggle:hover { color: var(--accent-color); }
+</style>
+<script>
+function togglePwd(id, btn) {
+    const input = document.getElementById(id);
+    const icon  = btn.querySelector('i');
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+}
+</script>
 
 <?php require_once 'includes/footer.php'; ?>
